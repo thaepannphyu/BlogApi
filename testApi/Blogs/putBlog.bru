@@ -1,0 +1,18 @@
+meta {
+  name: putBlog
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{localhost}}/blogs/2
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+     "title":"this is id 3 update laravel blohhh"
+   
+  }
+}

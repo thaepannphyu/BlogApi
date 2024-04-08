@@ -1,0 +1,19 @@
+meta {
+  name: storeComment
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{localhost}}/blogs/8/comment
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  Authorization: Bearer 2|f6XvGAG7W1VScQjr6eppA0Q2cgxKNP0bMwWxKcJz34396b7f
+}
+
+body:multipart-form {
+  body: phyu lay is so beautiful
+}

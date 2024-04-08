@@ -1,0 +1,19 @@
+meta {
+  name: patchCategory
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{localhost}}/categories/34
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+   "name":"name name",
+    "slug":"new_slug_name",
+    "description":"this is description"
+  }
+}

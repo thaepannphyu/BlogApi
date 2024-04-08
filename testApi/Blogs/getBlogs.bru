@@ -1,0 +1,16 @@
+meta {
+  name: getBlogs
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{localhost}}/blogs/?intro[like]=sed&body[like]=sed
+  body: none
+  auth: none
+}
+
+query {
+  intro[like]: sed
+  body[like]: sed
+}
