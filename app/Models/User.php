@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Filter\ScopeFilter;
+use Hamcrest\Type\IsBoolean;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -44,6 +47,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function scopeFilter($query, $filter){
+
+        $query->when($filter["is_admin"]??false,function ($query,$is_admin){
+          
+            if($is_admin=="true"){
+                return   $query->where("is_admin","=",true);
+            }else{
+                return $query;
+            }
+
+          
+        });
+       
+        $scope= new ScopeFilter($query,$filter);
+           
+            $scope->sort();
+    }
+
 
     /**
      * The relationships ith blogs. Show the blogs which the user write
@@ -97,5 +119,9 @@ class User extends Authenticatable
     public function unSubscribeTo()
     {
         return $this->subscribers()->detach(auth()->id());
+    }
+
+    public function getIsAdminBoolAttribute(){
+        return $this->is_admin==0?false:true;
     }
 }

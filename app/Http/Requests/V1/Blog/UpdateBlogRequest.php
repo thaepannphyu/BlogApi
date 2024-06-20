@@ -25,17 +25,17 @@ class UpdateBlogRequest extends FormRequest
         $method = $this->method();
         if ($method == "PUT") {
             return [
-                "title" => ["required"],
-                "intro" => ["required"],
-                "body" => ["required"],
-                "slug" => ['required', 'unique:blogs']
+                "name"=>["required","string","max:255"],
+                "email"=>["required","email","unique:users"],
+                "password"=>['required'],
+                "is_admin"=>["required","boolean"]
             ];
         } else {
             return [
-                "title" => ["sometimes", "required"],
-                "intro" => ["sometimes", "required"],
-                "body" => ["sometimes", "required"],
-                "slug" => ["sometimes", 'required', 'unique:blogs']
+                "name"=>["required","sometime","string","max:255"],
+                "email"=>["required","sometime","email","unique:users"],
+                "password"=>['required',"sometime"],
+                "is_admin"=>["required","boolean"]
             ];
         }
     }

@@ -14,7 +14,9 @@ class CategoryCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        $arr= array_values(collect(parent::toArray($request))->pluck("name")->toArray());
+        $arr= array_values(collect(parent::toArray($request))->toArray());
+
+        // ->pluck("name")
         return  $arr;
     }
 }

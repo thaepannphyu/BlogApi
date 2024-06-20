@@ -5,12 +5,11 @@ meta {
 }
 
 get {
-  url: {{localhost}}/blogs/?intro[like]=sed&body[like]=sed
+  url: {{localhost}}/blogs
   body: none
   auth: none
 }
 
-query {
-  intro[like]: sed
-  body[like]: sed
+headers {
+  Authorization: Bearer 9|eJsF5kwAUYpF1GSGgqiZRyvQWuNp3kBZFRR4Jgl4ac23323f
 }

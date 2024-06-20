@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
     public function index(Blog $blog) {
-
-      
       return  $blog->comments;
+    }
+
+    public function count(Blog $blog) {
+      return  $blog->comments->count();
       
     }
 
@@ -34,6 +36,7 @@ class CommentController extends Controller
     public function delete(Blog $blog) {
 
       $blog->detachComment();
+      
       return  response()->json(['message' => 'Comment deleted successfully']);
       
     }

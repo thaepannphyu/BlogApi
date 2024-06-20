@@ -3,7 +3,7 @@
 namespace App\Http\Requests\V1\Blog;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Support\Facades\Auth;
 
 class StoreBlogRequest extends FormRequest
 {
@@ -22,11 +22,11 @@ class StoreBlogRequest extends FormRequest
      */
     public function rules(): array
     {
+       
         return [
+        
             "title" => ["required"],
-            "intro" => ["required"],
             "body" => ["required"],
-            "slug" => ['required', 'unique:blogs']
         ];
     }
 }

@@ -19,13 +19,19 @@ class LoginUserController extends Controller
         if(Auth::attempt($creditials)){
            return new LoginResourceSuccess($creditials);
         }
-
-        return new LoginResourceFail($creditials);
+        
+        return response()->json([
+            "success" => false,
+            "message" => "login fail"
+        ],401)->header("content-type",'application/json');
+        
     }
 
     public function logout(Request $request){
 
         $request->user()->currentAccessToken()->delete();
+        
+ $request->user()->currentAccessToken()->delete();
         return response()->json([
             "success" => true,
             "message" => "logout successfully"

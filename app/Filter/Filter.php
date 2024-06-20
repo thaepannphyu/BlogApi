@@ -67,6 +67,7 @@ class Filter
                 $transQuery=$this->processStringQuery($transQuery, $column, $query);
             }
         }
+        
         return $transQuery;
     }
 

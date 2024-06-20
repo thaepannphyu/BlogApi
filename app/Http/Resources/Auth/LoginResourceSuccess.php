@@ -14,12 +14,15 @@ class LoginResourceSuccess extends JsonResource
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array
-    {
+    { 
+        $isAdmin=Auth::user()->is_admin==1?true:false;
+
         return [
             "success" => true,
             "message" => "Login successfully",
             "user" => Auth::user(),
-            "token" =>Auth::user()->createToken($request->email)->plainTextToken
+            "isAdmin"=> $isAdmin,
+            "token" =>Auth::user()->createToken(time())->plainTextToken
         ];
     }
 }

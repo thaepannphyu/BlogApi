@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(["prefix" => "V1"],function () {
     Route::post('register', [RegisteredUserController::class, 'store']);
     Route::post('login', [LoginUserController::class, 'login']);
-
     Route::middleware("auth:sanctum")->group(function(){
-        Route::get('/user-profile', [RegisteredUserController::class, 'profile']);
+        Route::get('/dashboard', [RegisteredUserController::class, 'dashboard'])->middleware("isAdmin");
         Route::post('/change-password', [PasswordController::class,"changePassword" ]);
         Route::post('/logout', [LoginUserController::class,'logout']);
     });
