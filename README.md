@@ -1,4 +1,4 @@
-                                                                                                # Project: Blogs
+<p style="text-align: center;font-size:24px,color:black">T-Blog Documentation</p>
 # 📁 Collection: Auth 
 
 
