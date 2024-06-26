@@ -10,9 +10,12 @@ class Comment extends Model
     use HasFactory;
 //    protected $with=["user"];
 
-//     public function user()
-//     {
-//         return $this->belongsTo(User::class)->withPivot("body");
-//     }
+public function blog() {
+    return $this->belongsTo(Blog::class);
+}
+
+public function user() {
+    return $this->belongsTo(User::class);
+}
    
 }

@@ -26,8 +26,8 @@ class PasswordComfirmationRequest extends FormRequest
     {
   
         return [
-            "current_password" => "required|current_password",
-            "password" => "required|min:8|different:current_password|confirmed",
+            "current_password" => "required|current_password|confirmed",
+            "new_password" => "required|min:8|different:current_password",
         ];
     }
 }

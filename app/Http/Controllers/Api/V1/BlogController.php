@@ -55,7 +55,8 @@ class BlogController extends Controller
         $formdata["user_id"]=Auth::user()->id;
 
         $blog = Blog::create($formdata);
-        return new BlogResource($blog);
+        
+        return response()->json(["data"=>new BlogResource($blog),"success"=>true]) ;
     }
 
     /**

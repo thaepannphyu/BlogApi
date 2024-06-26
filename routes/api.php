@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 // Define middleware for unauthenticated routes
 Route::group(["prefix" => "V1", "namespace" => "App\Http\Controllers\Api\V1"], function () {
-    Route::get('/users/{user}/subscribers', [SubscriptionController::class, 'subscribers']);
+    Route::get('/users/{user}/subscribers_count', [SubscriptionController::class, 'subscriberCount']);
     Route::get('/blogs/{blog}/comments', [CommentController::class, 'index']);
     Route::get('/blogs/{blog}/comment-count', [CommentController::class, 'count']);
     Route::apiResource('blogs', V1BlogController::class)->only(['index', 'show']);
@@ -40,10 +40,7 @@ Route::group(["prefix" => "V1", "namespace" => "App\Http\Controllers\Api\V1"], f
 
 // Authenticated routes with auth:sanctum middleware
 Route::middleware(['auth:sanctum'])->prefix('V1')->namespace('App\Http\Controllers\Api\V1')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-    
+    Route::get('/users/{user}/subscribers', [SubscriptionController::class, 'subscribers']);
     Route::post('/blogs/{blog}/comment', [CommentController::class, 'store']);
     Route::post('/users/{user}/subscribe', [SubscriptionController::class, 'toogleSubscribe']);
     Route::apiResource('blogs', V1BlogController::class)->only([ 'store']);
@@ -55,9 +52,9 @@ Route::middleware(['auth:sanctum'])->prefix('V1')->namespace('App\Http\Controlle
 //delete, update
 
 // Authenticated routes with auth:sanctum and owner middleware
-Route::middleware(['auth:sanctum',"isOwner"])->prefix('V1')->namespace('App\Http\Controllers\Api\V1')->group(function () {
-    Route::delete('/blogs/{blog}/comment', [CommentController::class, 'delete']);
-    Route::apiResource('blogs', V1BlogController::class)->only(['destroy', 'update']);
+Route::middleware(['auth:sanctum',"OwnerOrAdmin"])->prefix('V1')->namespace('App\Http\Controllers\Api\V1')->group(function () {
+    Route::delete('/blogs/{blog}/comments/{comment}', [CommentController::class, 'destory']);
+    Route::apiResource('blogs', V1BlogController::class)->only(['destroy', 'update', 'store']);
 });
 
 
@@ -66,7 +63,6 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->prefix('V1')->namespace('App\Htt
     Route::get('/users', [UserController::class, "index"]);
     Route::post('/users/make_admin', [RegisteredUserController::class, "makeAdmin"]);
     Route::patch('/users/{user}/update', [RegisteredUserController::class, "updateUserToAdmin"]);
-    Route::apiResource('blogs', V1BlogController::class)->only(['destroy', 'update', 'store']);
     Route::apiResource('categories', V1CategoryController::class)->only(['destroy', 'update', 'store']);
 });
 

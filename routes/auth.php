@@ -12,6 +12,7 @@ Route::group(["prefix" => "V1"],function () {
         Route::get('/dashboard', [RegisteredUserController::class, 'dashboard'])->middleware("isAdmin");
         Route::post('/change-password', [PasswordController::class,"changePassword" ]);
         Route::post('/logout', [LoginUserController::class,'logout']);
+        Route::get('/user', [LoginUserController::class, 'profile']);
     });
 });
 

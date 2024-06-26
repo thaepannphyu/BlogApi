@@ -46,7 +46,20 @@ class RegisteredUserController extends Controller
 
     public function updateUserToAdmin(UpdateUserToAdminRequest $request, User $user)
     {
+
         $user->update($request->validated());
-        return new UserResource($user);
+        $updatedUser=  new UserResource($user);
+        
+        $adminOruser=$updatedUser->is_admin==true?" become admin successfully":" is not admin anymore";
+         
+        $isAdmin=$updatedUser->is_admin==true;
+
+        return [
+            "user" =>  $updatedUser,
+            'message' => $updatedUser->name. $adminOruser,
+            'success'=>true,
+            "isAdmin"=>  $isAdmin
+        ];
+
     }
 }

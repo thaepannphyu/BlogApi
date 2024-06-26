@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use Database\Seeders\Api\V1\BlogSeeder;
 use Database\Seeders\Api\V1\CategorySeeder;
+use Database\Seeders\Api\V1\CommentSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,7 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             BlogSeeder::class,
-            CategorySeeder::class
+            CategorySeeder::class,
+            CommentSeeder::class
         ]);
        
      

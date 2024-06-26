@@ -22,21 +22,11 @@ class UpdateBlogRequest extends FormRequest
      */
     public function rules(): array
     {
-        $method = $this->method();
-        if ($method == "PUT") {
-            return [
-                "name"=>["required","string","max:255"],
-                "email"=>["required","email","unique:users"],
-                "password"=>['required'],
-                "is_admin"=>["required","boolean"]
-            ];
-        } else {
-            return [
-                "name"=>["required","sometime","string","max:255"],
-                "email"=>["required","sometime","email","unique:users"],
-                "password"=>['required',"sometime"],
-                "is_admin"=>["required","boolean"]
-            ];
-        }
+      
+        return [
+            "title" => ["required"],
+            "body" => ["required"],
+        ];
+
     }
 }

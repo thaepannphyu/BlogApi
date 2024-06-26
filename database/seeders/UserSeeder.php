@@ -33,11 +33,7 @@ class UserSeeder extends Seeder
         ->hasSubscribers(3)
         ->create(['password'=>'12345678']);
 
-        $blogs = Blog::factory()->count(10)->create();
-        $blogs->each(function ($blog) use ($users) {
-            $users->random(3)->each(function ($user) use ($blog) {
-                $blog->comments()->attach($user, ['body' => 'Sample comment body']);
-            });
-        });
+      
+  
     }
 }

@@ -31,6 +31,7 @@ class UpdateUserToAdminRequest extends FormRequest
     }
     protected function prepareForValidation()
     {
+        dd($this->input('is_admin'));
        
         $this->merge([
             'is_admin' => $this->transformBoolean($this->input('is_admin'))

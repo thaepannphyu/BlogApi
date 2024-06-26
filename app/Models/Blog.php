@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Filter\ScopeFilter;
-use App\Http\Resources\V1\Category\CategoryCollection;
-use App\Http\Resources\V1\Category\CategoryResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -88,17 +86,28 @@ class Blog extends Model
      /**
      * one to many with Comment
      */
-    public function comments(){
-        return $this->belongsToMany(User::class,"comments","blog_id",'user_id')->withPivot('body');
+    public function comments() {
+        return $this->hasMany(Comment::class);
     }
 
-    public function attachComment($validated){
-        return $this->comments()->attach(Auth::user()->id,['body' =>$validated["body"] ]);
-    }
+    // public function attachComment($validated){
 
-    public function detachComment(){
-        return $this->comments()->detach(Auth::user()->id);
-    }
+    //     return $this->comments()->attach(Auth::user()->id,['body' =>$validated["body"] ]);
+    // }
+
+    // public function detachComment($commentId){
+    //      // Find the comment
+    //      $comment = $this->comments()->where('comments.id', $commentId)
+    //      ->where('comments.user_id', Auth::id())
+    //      ->first();
+
+    //      // Check if the comment exists and belongs to the authenticated user
+    //      if ($comment) {
+    //          return $comment->delete();
+    //      } else {
+    //          return false; // Or throw an exception if preferred
+    //      }
+    // }
 
 
 }

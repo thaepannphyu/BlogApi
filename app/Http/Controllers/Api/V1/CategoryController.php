@@ -10,7 +10,7 @@ use App\Http\Resources\V1\Category\CategoryCollection;
 use App\Http\Resources\V1\Category\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
+
 
 class CategoryController extends Controller
 {

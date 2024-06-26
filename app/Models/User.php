@@ -82,7 +82,7 @@ class User extends Authenticatable
      */
     public function comments()
     {
-        return $this->belongsToMany(Blog::class,"comments","user_id","blog_id")->withPivot('body');
+        return $this->hasMany(Comment::class);
     }
 
     /**
@@ -108,7 +108,9 @@ class User extends Authenticatable
      */
     public function subscribeTo()
     {
-        return $this->subscribers()->attach(auth()->id());
+        
+       $this->subscribers()->attach(auth()->id());
+       return "subcribed successfully";
     }
 
 
@@ -118,10 +120,12 @@ class User extends Authenticatable
      */
     public function unSubscribeTo()
     {
-        return $this->subscribers()->detach(auth()->id());
+       $this->subscribers()->detach(auth()->id());
+        return "Unsubcribed successfully";
+       
     }
 
     public function getIsAdminBoolAttribute(){
-        return $this->is_admin==0?false:true;
+        return $this->is_admin==0?"false":"true";
     }
 }
