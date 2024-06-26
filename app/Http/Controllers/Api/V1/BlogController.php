@@ -12,16 +12,14 @@ use App\Http\Resources\V1\Blog\BlogResource;
 use App\Models\Blog;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 // use Illuminate\Validation\Rule;
 
 class BlogController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum')->only(['update','destory']);
-    }
+
     
     /**
      * Display a listing of the resource.
@@ -33,7 +31,10 @@ class BlogController extends Controller
         
         if(count( $query )==0){
             //filtered with relationship
+            //withQueryString()
+            //latest()->flop(request(["search", "category", "author"]))->
             return new BlogCollection(Blog::latest()->flop(request(["search", "category", "author"]))->paginate(6)->withQueryString());
+
         }else{
             //filter with the attribute or column in the model.
             //just append query in pagination to return correct meta link
@@ -50,8 +51,12 @@ class BlogController extends Controller
     public function store(StoreBlogRequest $request)
     {
         $formdata = $request->validated();
+       
+        $formdata["user_id"]=Auth::user()->id;
+
         $blog = Blog::create($formdata);
-        return new BlogResource($blog);
+        
+        return response()->json(["data"=>new BlogResource($blog),"success"=>true]) ;
     }
 
     /**
@@ -68,7 +73,7 @@ class BlogController extends Controller
      */
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        $this->middleware('auth:sanctum');
+ 
         $newData = $request->validated();
         $blog->update($newData);
         return new BlogResource($blog);

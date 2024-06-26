@@ -21,18 +21,12 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $method = $this->method();
-        if ($method == "PUT")
+        
+        dd($this);
+
             return [
                 "name" => ["required", "unique:categories"],
-                "slug" => ["required", "unique:categories"],
                 "description" => ["required"]
-            ];
-        else
-            return [
-                "name" => ["sometimes", "required", "unique:categories"],
-                "slug" => ["sometimes", "required", "unique:categories"],
-                "description" => ["sometimes", "required"]
             ];
     }
 }

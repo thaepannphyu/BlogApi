@@ -13,28 +13,36 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
     public function index(Blog $blog) {
-
-      
       return  $blog->comments;
+    }
+
+    public function count(Blog $blog) {
+      return  $blog->comments->count();
       
     }
 
-    public function store(Request $request,Blog $blog) {
 
-      $validated=$request->validate([
-        "body"=>["min:4","required"]
+    public function store(Request $request, Blog $blog) {
+
+      $validated = $request->validate([
+          "body" => ["min:4", "required"]
       ]);
+  
+      $validated["user_id"]=Auth::user()->id;
+      $validated["blog_id"]=$blog->id;
+      try {
+        Comment::create($validated);
+          return response()->json(['message' => 'Comment added successfully']);
+      } catch (\Exception $e) {
+          return response()->json(['error' => 'Failed to add comment', 'details' => $e->getMessage()], 500);
+      }
 
-      $blog->attachComment( $validated);
-     
-      return  response()->json(['message' => 'Comment added successfully']);
-      
-    }
-
-    public function delete(Blog $blog) {
-
-      $blog->detachComment();
-      return  response()->json(['message' => 'Comment deleted successfully']);
+  }
+  
+    public function destory(Blog $blog,Comment $comment) {
+    
+      $comment->delete();   
+      return  response()->json(['message' => 'Comment deleted successfully',"comment"=>$comment]);
       
     }
 }

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->string("title");
-            $table->string("intro");
             $table->text("body");
             $table->string("slug")->unique();
             $table->string("thumbnail")->nullable()->default("https://i.pravatar.cc/150?u=1");

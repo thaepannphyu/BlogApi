@@ -22,21 +22,11 @@ class UpdateBlogRequest extends FormRequest
      */
     public function rules(): array
     {
-        $method = $this->method();
-        if ($method == "PUT") {
-            return [
-                "title" => ["required"],
-                "intro" => ["required"],
-                "body" => ["required"],
-                "slug" => ['required', 'unique:blogs']
-            ];
-        } else {
-            return [
-                "title" => ["sometimes", "required"],
-                "intro" => ["sometimes", "required"],
-                "body" => ["sometimes", "required"],
-                "slug" => ["sometimes", 'required', 'unique:blogs']
-            ];
-        }
+      
+        return [
+            "title" => ["required"],
+            "body" => ["required"],
+        ];
+
     }
 }

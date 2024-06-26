@@ -14,6 +14,7 @@ class BlogResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $category=$this->category;
         return [
             "id" => $this->id,
             "intro" => $this->intro,
@@ -21,6 +22,8 @@ class BlogResource extends JsonResource
             "slug" => $this->slug,
             "body" => $this->body,
             "thumbnail" => $this->thumbnail,
+            "category"=>$this->category,
+            "author"=>$this->author
         ];
     }
 }

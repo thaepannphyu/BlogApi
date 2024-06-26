@@ -4,24 +4,20 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\StoreAuthRequest;
+use App\Http\Requests\V1\User\MakeAdminRequest;
+use App\Http\Requests\V1\User\UpdateUserToAdminRequest;
 use App\Http\Resources\Auth\RegisteredResources;
+use App\Http\Resources\V1\User\UserResource;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+
 
 class RegisteredUserController extends Controller
 {
     public function store(StoreAuthRequest $request)
     {
-
-        $request->validated();
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $user = User::create($request->validated());
 
         event(new Registered($user));
 
@@ -30,12 +26,40 @@ class RegisteredUserController extends Controller
         return new RegisteredResources($user);
     }
 
-    public function profile()
+    public function dashboard()
     {
 
         return response([
             "success" => true,
-            "data" => Auth::user()
+            "user" => Auth::user()
         ]);
+    }
+
+    public function makeAdmin(MakeAdminRequest $request)
+    {
+
+  
+        $user = User::create($request->validated());
+        return new UserResource($user);
+
+    }
+
+    public function updateUserToAdmin(UpdateUserToAdminRequest $request, User $user)
+    {
+
+        $user->update($request->validated());
+        $updatedUser=  new UserResource($user);
+        
+        $adminOruser=$updatedUser->is_admin==true?" become admin successfully":" is not admin anymore";
+         
+        $isAdmin=$updatedUser->is_admin==true;
+
+        return [
+            "user" =>  $updatedUser,
+            'message' => $updatedUser->name. $adminOruser,
+            'success'=>true,
+            "isAdmin"=>  $isAdmin
+        ];
+
     }
 }

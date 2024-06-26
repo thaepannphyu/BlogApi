@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Filter\ScopeFilter;
+use Hamcrest\Type\IsBoolean;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -45,6 +48,25 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function scopeFilter($query, $filter){
+
+        $query->when($filter["is_admin"]??false,function ($query,$is_admin){
+          
+            if($is_admin=="true"){
+                return   $query->where("is_admin","=",true);
+            }else{
+                return $query;
+            }
+
+          
+        });
+       
+        $scope= new ScopeFilter($query,$filter);
+           
+            $scope->sort();
+    }
+
+
     /**
      * The relationships ith blogs. Show the blogs which the user write
      */
@@ -60,7 +82,7 @@ class User extends Authenticatable
      */
     public function comments()
     {
-        return $this->belongsToMany(Blog::class,"comments","user_id","blog_id")->withPivot('body');
+        return $this->hasMany(Comment::class);
     }
 
     /**
@@ -86,7 +108,9 @@ class User extends Authenticatable
      */
     public function subscribeTo()
     {
-        return $this->subscribers()->attach(auth()->id());
+        
+       $this->subscribers()->attach(auth()->id());
+       return "subcribed successfully";
     }
 
 
@@ -96,6 +120,12 @@ class User extends Authenticatable
      */
     public function unSubscribeTo()
     {
-        return $this->subscribers()->detach(auth()->id());
+       $this->subscribers()->detach(auth()->id());
+        return "Unsubcribed successfully";
+       
+    }
+
+    public function getIsAdminBoolAttribute(){
+        return $this->is_admin==0?"false":"true";
     }
 }

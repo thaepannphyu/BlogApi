@@ -15,15 +15,14 @@ class PasswordController extends Controller
 {
     public function changePassword(PasswordComfirmationRequest $request) {
        
-        $user=$request->validated();
-      
-        
+        $validedRequest=collect($request->validated());
 
-         Auth::user()->update([
-            "password" =>Hash::make($request->password)
+        $user = Auth::user();
+        $user->update([
+            "password" =>Hash::make($validedRequest->new_password)
         ]);
 
-        Auth::user()->tokens()->delete();
+        $user->tokens()->delete();
 
         return response([
             "success"=>true,
