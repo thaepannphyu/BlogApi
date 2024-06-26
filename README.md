@@ -1,4 +1,4 @@
-<p style="text-align: center;font-size:50px,color:black">T-Blog Documentation</p>
+#### T-Blog Documentation
 # 📁 Collection: Auth 
 
 
